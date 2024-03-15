@@ -30,12 +30,12 @@ class CarControllerParams:
     self.STEER_STEP = 1  # 100 Hz
 
     if CP.carFingerprint in CANFD_CAR:
-        self.STEER_MAX = 480
+        self.STEER_MAX = 480 if vEgoRaw < 11. else 409
         self.STEER_DRIVER_ALLOWANCE = 350
         self.STEER_DRIVER_MULTIPLIER = 2
         self.STEER_THRESHOLD = 350
-        self.STEER_DELTA_UP = 3
-        self.STEER_DELTA_DOWN = 7
+        self.STEER_DELTA_UP = 10 if vEgoRaw < 11. else 3
+        self.STEER_DELTA_DOWN = 10 if vEgoRaw < 11. else 7
 
         if custom_torque:
           self.STEER_MAX = params.get_int("SteerMax")

@@ -215,10 +215,10 @@ class CarInterface(CarInterfaceBase):
       ret.steerRatio = 13.27  # 2021 Kia K5 Steering Ratio (all trims)
       ret.tireStiffnessFactor = 0.5
     elif candidate == CAR.KIA_EV6:
-      ret.mass = 2055
+      ret.mass = 2200 # modified from 2055 in ccP for EV6 GT.
       ret.wheelbase = 2.9
-      ret.steerRatio = 16.
-      ret.tireStiffnessFactor = 0.65
+      ret.steerRatio = 12.54. # modified from 16 in ccP for EV6 GT.
+      ret.tireStiffnessFactor = 0.85 # modified from .65 in ccP for EV6 GT.
     elif candidate in (CAR.KIA_SORENTO_4TH_GEN, CAR.KIA_SORENTO_HEV_4TH_GEN):
       ret.wheelbase = 2.81
       ret.steerRatio = 13.5  # average of the platforms

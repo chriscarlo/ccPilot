@@ -1,8 +1,8 @@
 #include "safety_hyundai_common.h"
 
 const SteeringLimits HYUNDAI_CANFD_STEERING_LIMITS = {
-  .max_steer = 480,
-  .max_rt_delta = 128,
+  .max_steer = 520,
+  .max_rt_delta = 122,
   .max_rt_interval = 250000,
   .max_rate_up = 10,
   .max_rate_down = 15,
@@ -11,9 +11,9 @@ const SteeringLimits HYUNDAI_CANFD_STEERING_LIMITS = {
   .type = TorqueDriverLimited,
 
   // the EPS faults when the steering angle is above a certain threshold for too long. to prevent this,
-  // we allow setting torque actuation bit to 0 while maintaining the requested torque value for two consecutive frames
+  // we allow setting torque actuation bit to 0 while maintaining the requested torque value for four consecutive frames
   .min_valid_request_frames = 89,
-  .max_invalid_request_frames = 2,
+  .max_invalid_request_frames = 4,
   .min_valid_request_rt_interval = 810000,  // 810ms; a ~10% buffer on cutting every 90 frames
   .has_steer_req_tolerance = true,
 };

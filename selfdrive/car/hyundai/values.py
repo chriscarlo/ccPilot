@@ -11,6 +11,8 @@ from openpilot.selfdrive.car.docs_definitions import CarFootnote, CarHarness, Ca
 from openpilot.selfdrive.car.fw_query_definitions import FwQueryConfig, Request, p16
 
 Ecu = car.CarParams.Ecu
+params = Params()
+custom_torque = params.get_bool("CustomTorque")
 
 
 class CarControllerParams:

@@ -43,7 +43,7 @@ from openpilot.selfdrive.frogpilot.functions.speed_limit_controller import Speed
 SOFT_DISABLE_TIME = 3  # seconds
 LDW_MIN_SPEED = 31 * CV.MPH_TO_MS
 LANE_DEPARTURE_THRESHOLD = 0.1
-CAMERA_OFFSET = 0.04
+CAMERA_OFFSET = 0.0
 
 REPLAY = "REPLAY" in os.environ
 SIMULATION = "SIMULATION" in os.environ
@@ -617,13 +617,13 @@ class Controls:
       self.drive_time = 0
 
       # Only count the drive if it lasted longer than 5 minutes
-      if self.sm.frame * DT_CTRL > 60 * 5 and not self.drive_added:
-        new_total_drives = self.params.get_int("FrogPilotDrives") + 1
+      #if self.sm.frame * DT_CTRL > 60 * 5 and not self.drive_added:
+        #new_total_drives = self.params.get_int("FrogPilotDrives") + 1
 
-        self.params.put_int("FrogPilotDrives", new_total_drives)
-        self.params_storage.put_int("FrogPilotDrives", new_total_drives)
+        #self.params.put_int("FrogPilotDrives", new_total_drives)
+        #self.params_storage.put_int("FrogPilotDrives", new_total_drives)
 
-        self.drive_added = True
+        #self.drive_added = True
 
     # Acceleration Random Event alerts
     if self.random_events:

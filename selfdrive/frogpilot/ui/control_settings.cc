@@ -257,7 +257,7 @@ FrogPilotControlsPanel::FrogPilotControlsPanel(SettingsWindow *parent) : FrogPil
       });
       toggle = customTorqueToggle;
     } else if (param == "SteerMax") {
-      toggle = new FrogPilotParamValueControl(param, title, desc, icon, 200, 480, std::map<int, QString>(), this, false, "");
+      toggle = new FrogPilotParamValueControl(param, title, desc, icon, 200, 520, std::map<int, QString>(), this, false, "");
     } else if (param == "DeltaUp") {
       toggle = new FrogPilotParamValueControl(param, title, desc, icon, 1, 10, std::map<int, QString>(), this, false, "");
     } else if (param == "DeltaDown") {

@@ -13,7 +13,6 @@ from openpilot.common.swaglog import cloudlog
 
 from openpilot.common.simple_kalman import KF1D
 
-from openpilot.selfdrive.frogpilot.functions.frogpilot_functions import FrogPilotFunctions
 
 # Default lead acceleration decay set to 50% at 1s
 _LEAD_ACCEL_TAU = 1.5
@@ -59,9 +58,6 @@ class Track:
     self.K_C = kalman_params.C
     self.K_K = kalman_params.K
     self.kf = KF1D([[v_lead], [0.0]], self.K_A, self.K_C, self.K_K)
-
-    # FrogPilot variables
-    self.fpf = FrogPilotFunctions()
 
   def update(self, d_rel: float, y_rel: float, v_rel: float, v_lead: float, measured: float):
     # relative values, copy
@@ -111,36 +107,6 @@ class Track:
       "radarTrackId": self.identifier,
     }
 
-  def potential_adjacent_lead(self, modelData: capnp._DynamicStructReader, left: bool, far: bool):
-    left_lane_probability = modelData.laneLineProbs[1]
-    right_lane_probability = modelData.laneLineProbs[2]
-
-    far_left_lane_probability = modelData.laneLineProbs[0]
-    far_right_lane_probability = modelData.laneLineProbs[3]
-
-    left_lane_line = modelData.laneLines[1]
-    right_lane_line = modelData.laneLines[2]
-
-    far_left_lane_line = modelData.laneLines[0]
-    far_right_lane_line = modelData.laneLines[3]
-
-    left_road_edge = modelData.laneLines[0]
-    right_road_edge = modelData.laneLines[1]
-
-    current_lead_position = self.yRel
-
-    if not (left_lane_probability > .5 and right_lane_probability > .5 and far_left_lane_probability > .5 and far_right_lane_probability > .5):
-      return False
-
-    if left and not far:
-      return current_lead_position >= self.fpf.calculate_lane_width(left_lane_line, far_left_lane_line, left_road_edge)
-    elif not left and not far:
-      return current_lead_position >= self.fpf.calculate_lane_width(right_lane_line, far_right_lane_line, right_road_edge)
-    elif left and far:
-      return current_lead_position >= self.fpf.calculate_lane_width(left_lane_line, far_left_lane_line, left_road_edge, max)
-    elif not left and far:
-      return current_lead_position >= self.fpf.calculate_lane_width(right_lane_line, far_right_lane_line, right_road_edge, max)
-
   def potential_low_speed_lead(self, v_ego: float):
     # stop for stuff in front of you and low speed, even without model confirmation
     # Radar points closer than 0.75, are almost always glitches on toyota radars
@@ -165,6 +131,31 @@ def match_vision_to_track(v_ego: float, lead: capnp._DynamicStructReader, tracks
   def prob(c):
     prob_d = laplacian_pdf(c.dRel, offset_vision_dist, lead.xStd[0])
     prob_y = laplacian_pdf(c.yRel, -lead.y[0], lead.yStd[0])
+    prob_v = laplacian_pdf(c.vRel + v_ego, lead.v[0], lead.vStd[0])
+
+    # This is isn't exactly right, but good heuristic
+    return prob_d * prob_y * prob_v
+
+  track = max(tracks.values(), key=prob)
+
+  # if no 'sane' match is found return -1
+  # stationary radar points can be false positives
+  dist_sane = abs(track.dRel - offset_vision_dist) < max([(offset_vision_dist)*.25, 5.0])
+  vel_sane = (abs(track.vRel + v_ego - lead.v[0]) < 10) or (v_ego + track.vRel > 3)
+  if dist_sane and vel_sane:
+    return track
+  else:
+    return None
+
+
+def match_vision_to_track_adjacent(v_ego: float, lead: capnp._DynamicStructReader, tracks: Dict[int, Track]):
+  offset_vision_dist = lead.x[0] - RADAR_TO_CAMERA
+
+  lane_width = 2.0
+
+  def prob(c):
+    prob_d = laplacian_pdf(c.dRel, offset_vision_dist, lead.xStd[0])
+    prob_y = laplacian_pdf(c.yRel, lane_width, lead.yStd[0])
     prob_v = laplacian_pdf(c.vRel + v_ego, lead.v[0], lead.vStd[0])
 
     # This is isn't exactly right, but good heuristic
@@ -309,11 +300,11 @@ class RadarD:
       self.radar_state.leadOne = get_lead(self.v_ego, self.ready, self.tracks, leads_v3[0], model_v_ego, low_speed_override=True)
       self.radar_state.leadTwo = get_lead(self.v_ego, self.ready, self.tracks, leads_v3[1], model_v_ego, low_speed_override=False)
 
-      self.radar_state.leadLeft = get_adjacent_lead(self.v_ego, self.ready, self.tracks, leads_v3[0], model_v_ego, sm['modelV2'], left=True)
-      self.radar_state.leadRight = get_adjacent_lead(self.v_ego, self.ready, self.tracks, leads_v3[0], model_v_ego, sm['modelV2'], left=False)
+      self.radar_state.leadLeft = get_adjacent_lead(self.v_ego, self.ready, self.tracks, leads_v3[0], model_v_ego)
+      self.radar_state.leadRight = get_adjacent_lead(self.v_ego, self.ready, self.tracks, leads_v3[0], model_v_ego)
 
-      self.radar_state.leadLeftFar = get_adjacent_lead(self.v_ego, self.ready, self.tracks, leads_v3[0], model_v_ego, sm['modelV2'], left=True, far=True)
-      self.radar_state.leadRightFar = get_adjacent_lead(self.v_ego, self.ready, self.tracks, leads_v3[0], model_v_ego, sm['modelV2'], left=False, far=True)
+      self.radar_state.leadLeftFar = get_adjacent_lead(self.v_ego, self.ready, self.tracks, leads_v3[0], model_v_ego)
+      self.radar_state.leadRightFar = get_adjacent_lead(self.v_ego, self.ready, self.tracks, leads_v3[0], model_v_ego)
 
   def publish(self, pm: messaging.PubMaster, lag_ms: float):
     assert self.radar_state is not None

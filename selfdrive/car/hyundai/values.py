@@ -17,7 +17,7 @@ custom_torque = params.get_bool("CustomTorque")
 
 
 class CarControllerParams:
-  ACCEL_MIN = -4.5 # m/s
+  ACCEL_MIN = -6.0 # m/s
   ACCEL_MAX = 4.0 # m/s
   ACCEL_MAX_PLUS = 6.0 # m/s
 

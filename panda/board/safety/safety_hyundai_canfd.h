@@ -2,7 +2,7 @@
 
 const SteeringLimits HYUNDAI_CANFD_STEERING_LIMITS = {
   .max_steer = 520,
-  .max_rt_delta = 122,
+  .max_rt_delta = 132,
   .max_rt_interval = 250000,
   .max_rate_up = 10,
   .max_rate_down = 15,

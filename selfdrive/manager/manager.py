@@ -274,7 +274,7 @@ def manager_init() -> None:
 
     # Default ccP parameters
     ("CustomTorque", "1"),
-    ("SteerMax", "480"),
+    ("SteerMax", "520"),
     ("DeltaUp", "3"),
     ("DeltaDown", "7"),
     ("DriverAllowance", "150"),

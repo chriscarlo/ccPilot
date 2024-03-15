@@ -226,21 +226,18 @@ def get_lead(v_ego: float, ready: bool, tracks: Dict[int, Track], lead_msg: capn
   return lead_dict
 
 def get_adjacent_lead(v_ego: float, ready: bool, tracks: Dict[int, Track], lead_msg: capnp._DynamicStructReader,
-                      model_v_ego: float, modelData: capnp._DynamicStructReader, left: bool, far: bool = False) -> Dict[str, Any]:
+                      model_v_ego: float) -> Dict[str, Any]:
   # Determine leads, this is where the essential logic happens
   if len(tracks) > 0 and ready and lead_msg.prob > .25:
-    track = match_vision_to_track(v_ego, lead_msg, tracks)
+    track = match_vision_to_track_adjacent(v_ego, lead_msg, tracks)
   else:
     track = None
 
   lead_dict = {'status': False}
-  lead_valid = False
-
   if track is not None:
-    lead_valid = track.potential_adjacent_lead(modelData, left, far)
-
-  if lead_valid:
     lead_dict = track.get_RadarState(lead_msg.prob)
+  elif (track is None) and ready and (lead_msg.prob > .25):
+    lead_dict = get_RadarState_from_vision(lead_msg, v_ego, model_v_ego)
 
   return lead_dict
 

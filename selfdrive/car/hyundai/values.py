@@ -21,7 +21,7 @@ class CarControllerParams:
   ACCEL_MAX = 4.0 # m/s
   ACCEL_MAX_PLUS = 6.0 # m/s
 
-  def __init__(self, CP, vEgoRaw=100.):
+  def __init__(self, CP):
     self.STEER_DELTA_UP = 3
     self.STEER_DELTA_DOWN = 7
     self.STEER_DRIVER_ALLOWANCE = 50
@@ -31,20 +31,13 @@ class CarControllerParams:
     self.STEER_STEP = 1  # 100 Hz
 
     if CP.carFingerprint in CANFD_CAR:
-        self.STEER_MAX = 480 if vEgoRaw < 11. else 409
-        self.STEER_DRIVER_ALLOWANCE = 350
-        self.STEER_DRIVER_MULTIPLIER = 2
-        self.STEER_THRESHOLD = 350
-        self.STEER_DELTA_UP = 10 if vEgoRaw < 11. else 3
-        self.STEER_DELTA_DOWN = 10 if vEgoRaw < 11. else 7
-
         if custom_torque:
           self.STEER_MAX = params.get_int("SteerMax")
           self.STEER_DRIVER_ALLOWANCE = params.get_int("DriverAllowance")
           self.STEER_DRIVER_MULTIPLIER = 2
           self.STEER_THRESHOLD = params.get_int("SteerThreshold")
-          self.STEER_DELTA_UP = params.get_int("DeltaUp")
-          self.STEER_DELTA_DOWN = params.get_int("DeltaDown")
+          self.STEER_DELTA_UP = 10 if vEgoRaw < 11. else params.get_int("DeltaUp")
+          self.STEER_DELTA_DOWN = 10 if vEgoRaw < 11. else params.get_int("DeltaDown")
 
         else:
           self.STEER_MAX = 270

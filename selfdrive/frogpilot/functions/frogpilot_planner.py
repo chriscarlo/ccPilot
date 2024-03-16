@@ -15,7 +15,7 @@ from openpilot.selfdrive.frogpilot.functions.map_turn_speed_controller import Ma
 from openpilot.selfdrive.frogpilot.functions.speed_limit_controller import SpeedLimitController
 
 
-TARGET_LAT_A = 1.9  # m/s^2
+TARGET_LAT_A = 3.0  # m/s^2
 
 TRAFFIC_MODE_BP = [0., CITY_SPEED_LIMIT / 4, CITY_SPEED_LIMIT / 3, CITY_SPEED_LIMIT / 2, CITY_SPEED_LIMIT]
 

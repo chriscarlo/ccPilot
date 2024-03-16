@@ -36,8 +36,8 @@ class CarControllerParams:
           self.STEER_DRIVER_ALLOWANCE = params.get_int("DriverAllowance")
           self.STEER_DRIVER_MULTIPLIER = 2
           self.STEER_THRESHOLD = params.get_int("SteerThreshold")
-          self.STEER_DELTA_UP = 10 if vEgoRaw < 30. else params.get_int("DeltaUp")
-          self.STEER_DELTA_DOWN = 10 if vEgoRaw < 30. else params.get_int("DeltaDown")
+          self.STEER_DELTA_UP = params.get_int("DeltaUp")
+          self.STEER_DELTA_DOWN = params.get_int("DeltaDown")
 
         else:
           self.STEER_MAX = 270

@@ -984,9 +984,9 @@ class Controls:
         max_torque = abs(self.last_actuators.steer) > 0.99
         if undershooting and turning and good_speed and max_torque:
           lac_log.active and self.events.add(EventName.steerSaturated)
-          # warn after saturated for > 0.4s
+          # warn after saturated for > 4s
           self.steerSaturationTimer += DT_CTRL
-          if self.steerSaturationTimer > 0.4:
+          if self.steerSaturationTimer > 4.0:
             self.events.add(EventName.steerSaturated)
         else:
           self.steerSaturationTimer = 0.0

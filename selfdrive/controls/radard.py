@@ -151,7 +151,16 @@ def match_vision_to_track(v_ego: float, lead: capnp._DynamicStructReader, tracks
 def match_vision_to_track_adjacent(v_ego: float, lead: capnp._DynamicStructReader, tracks: Dict[int, Track]):
   offset_vision_dist = lead.x[0] - RADAR_TO_CAMERA
 
-  lane_width = 2.0
+  if far:
+    if left:
+      lane_width = abs(float(FrogPilotFunctions.calculate_lane_width(modelData.laneLines[0], modelData.laneLines[1], modelData.roadEdges[0], True)))
+    else:
+      lane_width = abs(float(FrogPilotFunctions.calculate_lane_width(modelData.laneLines[3], modelData.laneLines[2], modelData.roadEdges[1], True)))
+  else:
+    if left:
+      lane_width = abs(float(FrogPilotFunctions.calculate_lane_width(modelData.laneLines[0], modelData.laneLines[1], modelData.roadEdges[0])))
+    else:
+      lane_width = abs(float(FrogPilotFunctions.calculate_lane_width(modelData.laneLines[3], modelData.laneLines[2], modelData.roadEdges[1])))
 
   def prob(c):
     prob_d = laplacian_pdf(c.dRel, offset_vision_dist, lead.xStd[0])

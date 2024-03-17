@@ -18,16 +18,16 @@ custom_torque = params.get_bool("CustomTorque")
 
 class CarControllerParams:
   ACCEL_MIN = -6.0 # m/s
-  ACCEL_MAX = 4.0 # m/s
-  ACCEL_MAX_PLUS = 6.0 # m/s
+  ACCEL_MAX = 6.0 # m/s
+  ACCEL_MAX_PLUS = 8.0 # m/s
 
   def __init__(self, CP, vEgoRaw=100.):
     self.STEER_DELTA_UP = 3
     self.STEER_DELTA_DOWN = 7
-    self.STEER_DRIVER_ALLOWANCE = 50
+    self.STEER_DRIVER_ALLOWANCE = 150
     self.STEER_DRIVER_MULTIPLIER = 2
     self.STEER_DRIVER_FACTOR = 1
-    self.STEER_THRESHOLD = 150
+    self.STEER_THRESHOLD = 250
     self.STEER_STEP = 1  # 100 Hz
 
     if CP.carFingerprint in CANFD_CAR:
@@ -40,12 +40,12 @@ class CarControllerParams:
           self.STEER_DELTA_DOWN = params.get_int("DeltaDown")
 
         else:
-          self.STEER_MAX = 270
-          self.STEER_DRIVER_ALLOWANCE = 250
+          self.STEER_MAX = 409
+          self.STEER_DRIVER_ALLOWANCE = 150
           self.STEER_DRIVER_MULTIPLIER = 2
           self.STEER_THRESHOLD = 250
-          self.STEER_DELTA_UP = 2
-          self.STEER_DELTA_DOWN = 3
+          self.STEER_DELTA_UP = 3
+          self.STEER_DELTA_DOWN = 4
 
     # To determine the limit for your car, find the maximum value that the stock LKAS will request.
     # If the max stock LKAS request is <384, add your car to this list.

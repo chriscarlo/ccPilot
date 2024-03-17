@@ -986,7 +986,7 @@ class Controls:
           lac_log.active and self.events.add(EventName.steerSaturated)
           # warn after saturated for > 4s
           self.steerSaturationTimer += DT_CTRL
-          if self.steerSaturationTimer > 4.0:
+          if self.steerSaturationTimer > 15.0:
             self.events.add(EventName.steerSaturated)
         else:
           self.steerSaturationTimer = 0.0

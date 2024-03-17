@@ -49,9 +49,7 @@ sound_list: Dict[int, Tuple[str, Optional[int], float]] = {
   AudibleAlert.noice: ("noice.wav", 1, MAX_VOLUME),
   AudibleAlert.nessie: ("nessie.wav", 1, MAX_VOLUME),
   AudibleAlert.uwu: ("uwu.wav", 1, MAX_VOLUME),
-
-  # Other
-  AudibleAlert.goat: ("goat.wav", 1, MAX_VOLUME),
+  # Other AudibleAlert.goat: ("goat.wav", 1, MAX_VOLUME),
 }
 
 def check_controls_timeout_alert(sm):

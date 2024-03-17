@@ -217,14 +217,15 @@ def crash_log(candidate):
     "AggressiveFollow", "AggressiveJerk", "StandardFollow", "StandardJerk", "RelaxedFollow", "RelaxedJerk", "DeviceShutdown",
     "ExperimentalModeActivation", "ExperimentalModeViaLKAS", "ExperimentalModeViaScreen", "FireTheBabysitter", "NoLogging", "MuteOverheated", "MuteDM", "MuteSeatbelt", "MuteDoor",
     "OfflineMode", "LateralTune", "ForceAutoTune", "NNFF", "SteerRatio", "UseLateralJerk", "LongitudinalTune", "AccelerationProfile",
-    "DecelerationProfile", "AggressiveAcceleration", "StoppingDistance", "SmoothBraking", "Model", "MTSCEnabled", "DisableMTSCSmoothing",
-    "MTSCAggressiveness", "MTSCCurvatureCheck", "MTSCLimit", "NudgelessLaneChange", "LaneChangeTime", "LaneDetection", "LaneDetectionWidth",
-    "OneLaneChange", "QOLControls", "DisableOnroadUploads", "HigherBitrate", "NavChill", "PauseLateralOnSignal", "ReverseCruise", "ReverseCruiseUI",
-    "SetSpeedLimit", "SetSpeedOffset",  "SpeedLimitController", "Offset1", "Offset2", "Offset3", "Offset4", "SLCConfirmation", "SLCFallback",
-    "SLCPriority1", "SLCPriority2", "SLCPriority3", "SLCOverride", "TurnDesires", "VisionTurnControl", "DisableVTSCSmoothing", "CurveSensitivity",
-    "TurnAggressiveness"
+    "DecelerationProfile", "AggressiveAcceleration", "StoppingDistance", "LeadDetectionThreshold", "SmoothBraking", "Model", "MTSCEnabled",
+    "DisableMTSCSmoothing", "MTSCAggressiveness", "MTSCCurvatureCheck", "MTSCLimit", "NudgelessLaneChange", "LaneChangeTime", "LaneDetection",
+    "LaneDetectionWidth", "OneLaneChange", "QOLControls", "DisableOnroadUploads", "HigherBitrate", "NavChill", "PauseLateralOnSignal", "ReverseCruise",
+    "ReverseCruiseUI", "SetSpeedLimit", "SetSpeedOffset",  "SpeedLimitController", "Offset1", "Offset2", "Offset3", "Offset4", "SLCConfirmation",
+    "SLCFallback", "SLCPriority1", "SLCPriority2", "SLCPriority3", "SLCOverride", "TurnDesires", "VisionTurnControl", "DisableVTSCSmoothing",
+    "CurveSensitivity", "TurnAggressiveness"
   ], [
-    "EVTable", "GasRegenCmd", "LongPitch", "LowerVolt", "CrosstrekTorque", "CydiaTune", "DragonPilotTune", "FrogsGoMooTune", "LockDoors", "SNGHack"
+    "ForceFingerprint", "DisableOpenpilotLongitudinal", "EVTable", "GasRegenCmd", "LongPitch", "LowerVolt", "CrosstrekTorque", "CydiaTune",
+    "DragonPilotTune", "FrogsGoMooTune", "LockDoors", "SNGHack"
   ], [
     "CustomTheme", "HolidayThemes", "CustomColors", "CustomIcons", "CustomSignals", "CustomSounds", "GoatScream", "AlertVolumeControl", "DisengageVolume",
     "EngageVolume", "PromptVolume", "PromptDistractedVolume", "RefuseVolume", "WarningSoftVolume", "WarningImmediateVolume", "CameraView",
